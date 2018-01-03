@@ -5,7 +5,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +27,7 @@ int activePlayer=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-        public void dropIn(View view) {
+        public void dropIn(View view)  {
             ImageView counter = (ImageView) view;
             tappedCounter = Integer.parseInt(counter.getTag().toString());
 
@@ -75,6 +79,12 @@ int activePlayer=0;
 //                            })
 //                    .create().show();
                   Toast.makeText(this, winner, Toast.LENGTH_SHORT).show();
+                    //Thread.sleep(5000);
+//                    long time= System.currentTimeMillis();
+//                    while (System.currentTimeMillis()<time+5000);
+                    LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+
+                    layout.setVisibility(View.VISIBLE);
                 }
                     else {
 
@@ -98,9 +108,60 @@ int activePlayer=0;
 
 
                         Toast.makeText(this, "Sigh! It's a draw!", Toast.LENGTH_SHORT).show();
+//                        long time= System.currentTimeMillis();
+//                        while (System.currentTimeMillis()<time+5000);
+
+                        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+                        layout.setVisibility(View.VISIBLE);
+
                     }
 
                 }
                 }
             }
-    }}
+    }
+    public void playAgain(View view)  {
+
+        gameIsActive = true;
+
+
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+
+        layout.setVisibility(View.INVISIBLE);
+
+        activePlayer = 0;
+
+        for (int i = 0; i < gameState.length; i++) {
+
+            gameState[i] = 2;
+
+        }
+
+        GridLayout gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+
+        for (int i = 0; i< gridLayout.getChildCount(); i++) {
+
+            ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
+
+        }
+
+    }
+    public void exit(View view)
+    {ImageButton btn= findViewById(R.id.btn);
+    btn.setOnClickListener(new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) { Toast.makeText(MainActivity.this, "Tap again to exit", Toast.LENGTH_SHORT).show();
+
+
+           // finish();;
+            android.os.Process.killProcess(android.os.Process.myPid());
+            Toast.makeText(MainActivity.this, "Tap again to exit", Toast.LENGTH_SHORT).show();
+            System.exit(1);
+            Toast.makeText(MainActivity.this, "Tap again to exit", Toast.LENGTH_SHORT).show();
+        }
+    });
+    }
+}
